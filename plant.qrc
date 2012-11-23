@@ -1,6 +1,7 @@
-<RCC>
-    <qresource prefix="/img">
-        <file alias="pea.jpg">images/pea.jpg</file>
-        <file alias="pea.png">images/pea.png</file>
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>images/pea.jpg</file>
+        <file>images/pea.png</file>
+	<file>images/copy.png</file>
     </qresource>
 </RCC>

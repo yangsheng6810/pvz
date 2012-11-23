@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QGridLayout *grid = new QGridLayout;
     Plant *pea = new Plant;
     grid->addWidget(pea,0,0);
+    Plant *pea1 = new Plant;
+    grid->addWidget(pea1,0,1);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(quit);
     layout->addLayout(grid);

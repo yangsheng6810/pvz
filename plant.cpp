@@ -3,25 +3,28 @@
 Plant::Plant(QWidget *parent) :
     QWidget(parent), healthPoint(100)
 {
+    QPushButton *bite = new QPushButton(tr("bite"));
+    connect(bite, SIGNAL(clicked()), this, SLOT(bitten()));
+    hp = new QLCDNumber(3);
+    hp->setSegmentStyle(QLCDNumber::Filled);
+    connect(this,SIGNAL(hpChanged(int)),hp,SLOT(display(int)));
     setMinimumSize(40,40);
     QLabel *pea = new QLabel(this);
-    QMovie *peaMovie = new QMovie(":/img/pea.png");
-    pea->setMovie(peaMovie);
+    pea->setPixmap(QPixmap(":/images/pea.png"));
     pea->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    pea->setText(tr("a Pea"));
-    // pea->move(20,20);
     pea->show();
-    // pea->setAttribute(Qt::WA_DeleteOnClose);
-    QPushButton *button = new QPushButton(tr("plant"));
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(pea);
-    layout->addWidget(button);
+    layout->addWidget(bite);
+    layout->addWidget(hp);
     this->setLayout(layout);
 }
 
-void Plant::bitten(int num)
+void Plant::bitten()
 {
+    int num = 4;
     healthPoint -= num;
+    emit hpChanged(healthPoint);
     if (healthPoint <= 0){
         die();
     }
