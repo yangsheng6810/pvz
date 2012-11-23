@@ -2,10 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-namespace Ui {
-class MainWindow;
-}
+#include <QGridLayout>
+#include <QPushButton>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QMessageBox>
+#include <QMenu>
+#include <QMenuBar>
+#include <QAction>
 
 class MainWindow : public QMainWindow
 {
@@ -14,9 +18,19 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    
+
+private slots:
+    void newGame();
+    void about();
+
 private:
-    Ui::MainWindow *ui;
+    QMenu *gameMenu;
+    QMenu *helpMenu;
+    QAction *newGameAct;
+    QAction *exitAct;
+    QAction *aboutAct;
+    void createMenus();
+    void createActions();
 };
 
 #endif // MAINWINDOW_H
