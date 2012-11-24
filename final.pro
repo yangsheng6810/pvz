@@ -16,12 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     plant.cpp \
     sunflower.cpp \
-    backgroundmusic.cpp
+    backgroundmusic.cpp \
+    sunlight.cpp \
+    peashooter.cpp
 
 HEADERS  += mainwindow.h \
     plant.h \
     sunflower.h \
-    backgroundmusic.h
+    backgroundmusic.h \
+    sunlight.h \
+    peashooter.h
 
 FORMS    +=
 

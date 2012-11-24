@@ -3,6 +3,7 @@
 #include "plant.h"
 #include "sunflower.h"
 #include "backgroundmusic.h"
+#include "sunlight.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -12,8 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton *quit = new QPushButton(tr("Quit"));
     connect(quit, SIGNAL(clicked()), this, SLOT(close()));
 
+    SunLight *sun = new SunLight();
+
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(quit);
+    layout->addWidget(sun);
 
     QGridLayout *grid = new QGridLayout;
     layout->addLayout(grid);
@@ -25,8 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Plant *flower = new SunFlower();
     grid->addWidget(flower,0,1);
+    connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
     flower = new SunFlower();
     grid->addWidget(flower,1,1);
+    connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
 
     QWidget *widget = new QWidget;
     widget->setLayout(layout);

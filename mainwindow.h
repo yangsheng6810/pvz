@@ -10,6 +10,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>
+#include <QLCDNumber>
 
 class MainWindow : public QMainWindow
 {
