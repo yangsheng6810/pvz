@@ -1,7 +1,10 @@
-<!DOCTYPE RCC><RCC version="1.0">
-    <qresource>
+<RCC>
+    <qresource prefix="/">
         <file>images/pea.jpg</file>
         <file>images/pea.png</file>
-	<file>images/copy.png</file>
+        <file>images/copy.png</file>
+        <file>images/pea.gif</file>
+        <file>images/sunflower.gif</file>
+        <file>music/Grasswalk.mp3</file>
     </qresource>
 </RCC>

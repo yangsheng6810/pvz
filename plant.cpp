@@ -1,18 +1,26 @@
 #include "plant.h"
 
-Plant::Plant(QWidget *parent) :
-    QWidget(parent), healthPoint(100)
+int Plant::originHealthPoint = 100;
+
+Plant::Plant(QWidget *parent, QString picName) :
+    QWidget(parent)  //, healthPoint(originHealthPoint)
 {
     QPushButton *bite = new QPushButton(tr("bite"));
-    connect(bite, SIGNAL(clicked()), this, SLOT(bitten()));
+    connect(bite, SIGNAL(clicked()), this, SLOT(bitten()));// this is for debug
+
     hp = new QLCDNumber(3);
     hp->setSegmentStyle(QLCDNumber::Filled);
     connect(this,SIGNAL(hpChanged(int)),hp,SLOT(display(int)));
+
     setMinimumSize(40,40);
+    resetHealthPoint();
+
     QLabel *pea = new QLabel(this);
-    pea->setPixmap(QPixmap(":/images/pea.png"));
-    pea->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    QMovie *movie = new QMovie(picName);
+    pea->setMovie(movie);
+    movie->start();
     pea->show();
+
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(pea);
     layout->addWidget(bite);
@@ -32,4 +40,10 @@ void Plant::bitten()
 
 void Plant::die()
 {
+}
+
+void Plant::resetHealthPoint()
+{
+    healthPoint = originHealthPoint;
+    emit hpChanged(healthPoint);
 }

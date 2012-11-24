@@ -1,6 +1,8 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "plant.h"
+#include "sunflower.h"
+#include "backgroundmusic.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -9,19 +11,31 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
     QPushButton *quit = new QPushButton(tr("Quit"));
     connect(quit, SIGNAL(clicked()), this, SLOT(close()));
-    QGridLayout *grid = new QGridLayout;
-    Plant *pea = new Plant;
-    grid->addWidget(pea,0,0);
-    Plant *pea1 = new Plant;
-    grid->addWidget(pea1,0,1);
+
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(quit);
+
+    QGridLayout *grid = new QGridLayout;
     layout->addLayout(grid);
+
+    Plant *pea = new Plant();
+    grid->addWidget(pea,0,0);
+    pea = new Plant();
+    grid->addWidget(pea,1,0);
+
+    Plant *flower = new SunFlower();
+    grid->addWidget(flower,0,1);
+    flower = new SunFlower();
+    grid->addWidget(flower,1,1);
+
     QWidget *widget = new QWidget;
     widget->setLayout(layout);
     widget->show();
     setWindowTitle(QObject::tr("Plant VS Zombies"));
     setCentralWidget(widget);
+
+    BackgroundMusic *music = new BackgroundMusic;
+    music->startPlaying();
 }
 
 MainWindow::~MainWindow()
