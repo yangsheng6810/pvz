@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/pea.jpg</file>
-        <file>images/pea.png</file>
-        <file>images/copy.png</file>
-        <file>images/pea.gif</file>
+        <file>images/peashooter.jpg</file>
+        <file>images/peashooter.png</file>
+        <file>images/peashooter.gif</file>
         <file>images/sunflower.gif</file>
         <file>music/Grasswalk.mp3</file>
+        <file>images/zombie.gif</file>
     </qresource>
 </RCC>

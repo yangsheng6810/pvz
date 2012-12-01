@@ -11,6 +11,7 @@ class SunLight : public QWidget
     Q_OBJECT
 public:
     explicit SunLight(QWidget *parent = 0);
+    bool sufficientSunLight(int num);
 
 signals:
     
@@ -22,6 +23,7 @@ protected:
     QLCDNumber* lcd;
 signals:
     void updateSun(int);
+    //void insufficientSunLight();
 };
 
 #endif // SUNLIGHT_H

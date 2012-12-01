@@ -2,9 +2,9 @@
 #include "sunlight.h"
 
 SunFlower::SunFlower(QWidget *parent):
-Plant(parent, ":/images/sunflower.gif")
+Plant(parent, "sunflower")
 {
-    QTimer *timer = new QTimer(this);
+    QTimer *timer = new QTimer(this);// timer for emitting sun light
     connect(timer, SIGNAL(timeout()), this, SLOT(sunLight()));
     timer->start(1000);
 }

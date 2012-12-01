@@ -14,4 +14,6 @@ public slots:
     void sunLight();
 };
 
+// may be it is a good idea to put all different plants in a single file?
+// may be not?
 #endif // SUNFLOWER_H

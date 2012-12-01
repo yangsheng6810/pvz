@@ -2,29 +2,35 @@
 
 int Plant::originHealthPoint = 100;
 
-Plant::Plant(QWidget *parent, QString picName) :
-    QWidget(parent)  //, healthPoint(originHealthPoint)
+Plant::Plant(QWidget *parent, QString name) :
+    QWidget(parent), plantName(name)  //, healthPoint(originHealthPoint)
 {
+    // the following are for debug
+    /*
     QPushButton *bite = new QPushButton(tr("bite"));
     connect(bite, SIGNAL(clicked()), this, SLOT(bitten()));// this is for debug
 
     hp = new QLCDNumber(3);
     hp->setSegmentStyle(QLCDNumber::Filled);
     connect(this,SIGNAL(hpChanged(int)),hp,SLOT(display(int)));
+    */
 
     setMinimumSize(40,40);
     resetHealthPoint();
 
-    QLabel *pea = new QLabel(this);
-    QMovie *movie = new QMovie(picName);
-    pea->setMovie(movie);
+    QLabel *plant = new QLabel(this);
+    QMovie *movie = new QMovie(":/images/"+name+".gif");
+    plant->setMovie(movie);
     movie->start();
-    pea->show();
+    plant->show();
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(pea);
+    layout->addWidget(plant);
+    // the following are for debug
+    /*
     layout->addWidget(bite);
     layout->addWidget(hp);
+    */
     this->setLayout(layout);
 }
 

@@ -2,11 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QMessageBox>
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>

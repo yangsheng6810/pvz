@@ -10,13 +10,15 @@
 #include <QFrame>
 #include <QLCDNumber>
 #include <QString>
+//#include <QMetaType>
 
 class Plant : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Plant(QWidget *parent = 0, QString picName=":/images/pea.gif");
+    explicit Plant(QWidget *parent = 0, QString name="peashooter");
     QLCDNumber *hp;
+    const QString plantName;
 signals:
     void hpChanged(int hp);
 public slots:
