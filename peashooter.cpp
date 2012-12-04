@@ -1,6 +1,6 @@
 #include "peashooter.h"
 
-PeaShooter::PeaShooter(QWidget *parent) :
+PeaShooter::PeaShooter(QObject *parent) :
     Plant(parent)
 {
 }

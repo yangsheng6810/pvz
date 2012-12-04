@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QTimer>
+#include <QGraphicsView>
 #include "mainwindow.h"
 #include "plant.h"
 #include "sunflower.h"
@@ -15,7 +16,8 @@
 #include "field.h"
 #include "allzombies.h"
 #include "zombie.h"
-//#include "plantcard.h"    // to be implemented
+#include "garden.h"
+#include "plantcard.h"    // to be implemented
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -23,72 +25,50 @@ MainWindow::MainWindow(QWidget *parent) :
     createActions();
     createMenus();
 
+    setMouseTracking(true);
+    // resize(800,600);
+
     SunLight *sun = new SunLight();
     // PlantCard *plantcard = new PlantCard;  // to be implemented
 
     QHBoxLayout *top = new QHBoxLayout;
     QVBoxLayout *layout = new QVBoxLayout;
     top->addWidget(sun);
-    // top->addWidget(plantcard); // to be implemented
+
+    QPixmap* pixmap = new QPixmap(":/images/remove.png");
+    QPushButton* removeButton = new QPushButton;
+    removeButton->setIcon(QIcon(*pixmap));
+    removeButton->setIconSize(pixmap->rect().size());
+
+    PlantCard* card = new PlantCard("peashooter",100,20,sun);
+    Field *f = new Field(sun);
+    Garden *g = new Garden;
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+
+    card = new PlantCard("sunflower",50,15,sun);
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+    top->addWidget(removeButton);
     layout->addLayout(top);
 
 
-    Field *f = new Field;
-    layout->addWidget(f);
+    connect(f,SIGNAL(addPlantPic(Plant*,int,int)),g,SLOT(addPlant(Plant*,int,int)));
+    connect(f,SIGNAL(removePlantPic(Plant*)),g,SLOT(removePlant(Plant*)));
+    connect(f,SIGNAL(prepareToPlant(Plant*)),g,SLOT(prepareToPlant(Plant*)));
+    connect(g,SIGNAL(addPlantAt(Plant*,int,int)),f,SLOT(addPlant(Plant*, int,int)));
+    connect(f,SIGNAL(subSun(int)),sun,SLOT(subtractSunLight(int)));
+    connect(g,SIGNAL(removePlantAt(int,int)),f,SLOT(removePlant(int,int)));
 
+    connect(removeButton, SIGNAL(clicked()),g,SLOT(prepareToRemove()));
 
-    // the following comment out are from the first version
-    /*
-    Plant *pea = new Plant();
-    grid->addWidget(pea,0,0);
-    pea = new Plant();
-    grid->addWidget(pea,1,0);
+    layout->addWidget(g);
 
-    Plant *flower = new SunFlower();
-    grid->addWidget(flower,0,1);
-    connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
-    flower = new SunFlower();
-    grid->addWidget(flower,1,1);
-    connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
-    */
-    /*
-    Plant *flower = new SunFlower();
-    connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
-    f->addPlant(flower,0,0);
-    flower = new SunFlower();
-    connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
-    f->addPlant(flower,1,1);
-    Plant *pea = new PeaShooter();
-    f->addPlant(pea,2,2);
-    pea = new PeaShooter();
-    f->addPlant(pea,3,4);
-    */
-    Plant *flower;
-    Plant *pea;
-    for(int i=0; i < ROW_NUMBER; i++){
-        flower = new SunFlower();
-        f->addPlant(flower,i,0);
-        connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
-    }
-    for(int i=0; i < ROW_NUMBER; i++){
-        flower = new SunFlower();
-        f->addPlant(flower,i,1);
-        connect(flower,SIGNAL(produceSunLight(int)),sun,SLOT(addSunLight(int)));
-    }
-    for (int j=2; j < COL_NUMBER; j++)
-        for(int i=0; i < ROW_NUMBER; i++){
-            pea = new PeaShooter();
-            f->addPlant(pea,i,j);
-    }
-
-
-    // the following is for debuging the first version of zombie
-    /*
-    Zombie *z = new Zombie();
-    f->addPlant(z,3,1);
-    */
+    // the following are for second version of field
     // the above lines are for debug
-    QTimer::singleShot(10000, f, SLOT(removePlantDebug()));
+    // QTimer::singleShot(10000, f, SLOT(removePlantDebug()));
 
     AllZombies* allZombies = new AllZombies();
 
@@ -137,9 +117,8 @@ void MainWindow::createActions()
 void MainWindow::about()
 {
    QMessageBox::about(this, tr("About Application"),
-            tr("The <b>PVZ</b> was written by"
+            tr("The <b>PVZ</b> was written by "
                 "Yang Sheng <yangsheng6810@gmail.com>"
-                " and "
                 " as a homework"));
 }
 

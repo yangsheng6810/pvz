@@ -6,5 +6,9 @@
         <file>images/sunflower.gif</file>
         <file>music/Grasswalk.mp3</file>
         <file>images/zombie.gif</file>
+        <file>images/garden.png</file>
+        <file>card/sunflower.png</file>
+        <file>card/peashooter.png</file>
+        <file>images/remove.png</file>
     </qresource>
 </RCC>

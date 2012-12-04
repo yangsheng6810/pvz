@@ -2,15 +2,23 @@
 #define ZOMBIE_H
 
 #include <QWidget>
+#include <QGraphicsItem>
 
-class Zombie : public QWidget
+class Zombie : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit Zombie(QWidget *parent = 0, QString name="zombie");
+    explicit Zombie(QObject *parent = 0, QString name="zombie");
     const QString zombieName;
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget);
     void hitten(int hitNumber);
     void eat(int eatNumber);
+protected:
+    void advance(int step);
+
 signals:
     void stepForward();
     void hpChanged(int hp);

@@ -1,12 +1,12 @@
 #include "sunflower.h"
 #include "sunlight.h"
 
-SunFlower::SunFlower(QWidget *parent):
+SunFlower::SunFlower(QObject *parent):
 Plant(parent, "sunflower")
 {
     QTimer *timer = new QTimer(this);// timer for emitting sun light
     connect(timer, SIGNAL(timeout()), this, SLOT(sunLight()));
-    timer->start(1000);
+    timer->start(10000);
 }
 
 void SunFlower::sunLight()

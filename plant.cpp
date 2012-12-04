@@ -2,8 +2,8 @@
 
 int Plant::originHealthPoint = 100;
 
-Plant::Plant(QWidget *parent, QString name) :
-    QWidget(parent), plantName(name)  //, healthPoint(originHealthPoint)
+Plant::Plant(QObject *parent, QString name) :
+    QObject(parent), plantName(name)  //, healthPoint(originHealthPoint)
 {
     // the following are for debug
     /*
@@ -15,9 +15,9 @@ Plant::Plant(QWidget *parent, QString name) :
     connect(this,SIGNAL(hpChanged(int)),hp,SLOT(display(int)));
     */
 
-    setMinimumSize(40,40);
+    // setMinimumSize(40,40);
     resetHealthPoint();
-
+    /*
     QLabel *plant = new QLabel(this);
     QMovie *movie = new QMovie(":/images/"+name+".gif");
     plant->setMovie(movie);
@@ -26,14 +26,43 @@ Plant::Plant(QWidget *parent, QString name) :
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(plant);
+    */
     // the following are for debug
     /*
     layout->addWidget(bite);
     layout->addWidget(hp);
     */
+    /*
     this->setLayout(layout);
+    */
+
+}
+QRectF Plant::boundingRect() const
+{
+    qreal adjust = 0.5;
+    return QRectF(-18 - adjust, -22 - adjust,
+                  140 + adjust, 180 + adjust);
 }
 
+QPainterPath Plant::shape() const
+{
+    QPainterPath path;
+    path.addRect(-10, -20, 50, 140);
+    return path;
+}
+
+void Plant::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    painter->drawPixmap(-20,0,QPixmap(":/images/"+plantName+".gif"));
+}
+
+void Plant::advance(int step)
+{
+    if (!step)
+        return;
+
+    // setPos(mapToParent(-1, 0));
+}
 void Plant::bitten()
 {
     int num = 4;

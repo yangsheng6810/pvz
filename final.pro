@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     plantyard.cpp \
     plantcard.cpp \
     allzombies.cpp \
-    zombie.cpp
+    zombie.cpp \
+    garden.cpp
 
 HEADERS  += mainwindow.h \
     plant.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     Constants.h \
     plantcard.h \
     allzombies.h \
-    zombie.h
+    zombie.h \
+    garden.h
 
 FORMS    +=
 

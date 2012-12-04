@@ -10,15 +10,20 @@
 #include <QFrame>
 #include <QLCDNumber>
 #include <QString>
+#include <QGraphicsItem>
 //#include <QMetaType>
 
-class Plant : public QWidget
+class Plant : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit Plant(QWidget *parent = 0, QString name="peashooter");
-    QLCDNumber *hp;
+    explicit Plant(QObject *parent = 0, QString name="peashooter");
     const QString plantName;
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget);
+
 signals:
     void hpChanged(int hp);
 public slots:
@@ -29,6 +34,8 @@ protected:
     int healthPoint;
     void die();
     static int originHealthPoint;
+    void advance(int step);
+
 };
 
 #endif // PLANT_H

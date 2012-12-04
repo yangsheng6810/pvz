@@ -13,11 +13,10 @@ public:
     explicit SunLight(QWidget *parent = 0);
     bool sufficientSunLight(int num);
 
-signals:
-    
 public slots:
     void addSunLight(int num);
     void addSunLight(void);// for debug
+    void subtractSunLight(int num);// caller responsible for sufficient sunlight
 protected:
     int sunLight;
     QLCDNumber* lcd;

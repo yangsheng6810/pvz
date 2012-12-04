@@ -6,7 +6,7 @@ class PeaShooter : public Plant
 {
     Q_OBJECT
 public:
-    explicit PeaShooter(QWidget *parent = 0);
+    explicit PeaShooter(QObject *parent = 0);
     
 signals:
     

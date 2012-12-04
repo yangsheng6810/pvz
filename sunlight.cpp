@@ -10,6 +10,7 @@ SunLight::SunLight(QWidget *parent) :
     QHBoxLayout* layout = new QHBoxLayout;
     layout->addWidget(lcd);
     layout->addWidget(button);
+    addSunLight(0);// dirty code
     this->setLayout(layout);
 }
 
@@ -26,5 +27,19 @@ void SunLight::addSunLight()// for debug
     sunLight += 50;
     if (sunLight > 9990)
         sunLight = 9990;
+    emit updateSun(sunLight);
+}
+
+bool SunLight::sufficientSunLight(int num)
+{
+    if (num <= sunLight)
+        return true;
+    else
+        return false;
+}
+
+void SunLight::subtractSunLight(int num)
+{
+    sunLight -= num;
     emit updateSun(sunLight);
 }

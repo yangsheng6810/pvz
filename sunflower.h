@@ -7,7 +7,7 @@ class SunFlower : public Plant
 {
     Q_OBJECT
 public:
-    explicit SunFlower(QWidget *parent = 0);
+    explicit SunFlower(QObject *parent = 0);
 signals:
     void produceSunLight(int num);
 public slots:

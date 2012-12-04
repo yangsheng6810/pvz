@@ -2,12 +2,17 @@
 #include <QMovie>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QStyleOption>
+#include <QPixmap>
 #include "zombie.h"
 #include "Constants.h"
 
-Zombie::Zombie(QWidget *parent, QString name) :
-    QWidget(parent), zombieName(name),healthPoint(100),isFrozen(false)
+Zombie::Zombie(QObject *parent, QString name) :
+    QObject(parent), zombieName(name),healthPoint(100),isFrozen(false)
 {
+    /*
     QLabel *zombie = new QLabel(this);
     QMovie *movie = new QMovie(":/images/"+name+".gif");
     zombie->setMovie(movie);
@@ -16,6 +21,33 @@ Zombie::Zombie(QWidget *parent, QString name) :
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(zombie);
     this->setLayout(layout);
+    */
+}
+QRectF Zombie::boundingRect() const
+{
+    qreal adjust = 5;
+    return QRectF(-18 - adjust, -22 - adjust,
+                  250 + adjust, 290 + adjust);
+}
+
+QPainterPath Zombie::shape() const
+{
+    QPainterPath path;
+    path.addRect(-20, -20, 50, 140);
+    return path;
+}
+
+void Zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    painter->drawPixmap(-20,0,QPixmap(":/images/"+zombieName+".gif"));
+}
+
+void Zombie::advance(int step)
+{
+    if (!step)
+        return;
+
+    setPos(mapToParent(0,0));
 }
 
 void Zombie::hitten(int hitNumber)
