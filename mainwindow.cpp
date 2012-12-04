@@ -1,12 +1,10 @@
 #include <QtGui>
-#include <QGridLayout>
 #include <QPushButton>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
-#include <QTimer>
-#include <QGraphicsView>
+// #include <QTimer>
 #include "mainwindow.h"
 #include "plant.h"
 #include "sunflower.h"
@@ -17,7 +15,7 @@
 #include "allzombies.h"
 #include "zombie.h"
 #include "garden.h"
-#include "plantcard.h"    // to be implemented
+#include "plantcard.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -26,10 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
 
     setMouseTracking(true);
-    // resize(800,600);
 
     SunLight *sun = new SunLight();
-    // PlantCard *plantcard = new PlantCard;  // to be implemented
 
     QHBoxLayout *top = new QHBoxLayout;
     QVBoxLayout *layout = new QVBoxLayout;
@@ -41,8 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
     removeButton->setIconSize(pixmap->rect().size());
 
     PlantCard* card = new PlantCard("peashooter",100,20,sun);
+
     Field *f = new Field(sun);
     Garden *g = new Garden;
+
     connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
     connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
     top->addWidget(card);
@@ -66,12 +64,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     layout->addWidget(g);
 
-    // the following are for second version of field
-    // the above lines are for debug
     // QTimer::singleShot(10000, f, SLOT(removePlantDebug()));
 
     AllZombies* allZombies = new AllZombies();
+    connect(allZombies,SIGNAL(addZombieAt(Zombie*,int,int)),g,SLOT(addZombieAt(Zombie*,int,int)));
+    allZombies->addZombie(0, 0);
 
+    layout->setSpacing(0);
     QWidget *widget = new QWidget;
     widget->setLayout(layout);
     widget->show();
@@ -80,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     BackgroundMusic *music = new BackgroundMusic;
     music->startPlaying();
+    this->setFixedSize(1000,700);
+    // layout->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 MainWindow::~MainWindow()

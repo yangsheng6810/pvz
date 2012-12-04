@@ -25,6 +25,7 @@ public slots:
     void removePlant(Plant* plant);
     void prepareToPlant(Plant* plant);
     void prepareToRemove(void);
+    void addZombieAt(Zombie* zombie, int row, int col);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -34,8 +35,9 @@ protected:
     Plant* newPlant;
     bool prepare;
     bool prepare2Remove;
-    const QPoint targetPoint(const QPoint &position) const;
-
+    const QPoint targetPoint(const QPointF &position) const;
+    const QPoint scenePos(const QPointF &position) const;
+    const QPointF actualPos(int row, int col) const;
 };
 
 #endif // GARDEN_H

@@ -32,6 +32,7 @@ private slots:
 private:
     int healthPoint;
     int isFrozen;
+    int whichStep;
 };
 // note, this is only a simple implement of zombie
 

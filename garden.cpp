@@ -8,32 +8,24 @@
 #include "Constants.h"
 
 Garden::Garden(QWidget *parent) :
-    QWidget(parent), prepare(false)
+    QWidget(parent), prepare(false), prepare2Remove(false)
 {
     scene = new QGraphicsScene;
-    scene->setSceneRect(0, 0, 600, 400);
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+    scene->setSceneRect(0, 0, (COL_NUMBER+1)*GRID_X,ROW_NUMBER*GRID_Y);
+    // scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
-    Zombie *z1 = new Zombie;
-    z1->setPos(300,100);
-    scene->addItem(z1);
     view = new QGraphicsView(scene);
     view->setRenderHint(QPainter::Antialiasing);
     view->setBackgroundBrush(QPixmap(":/images/garden.png"));
 
-    view->setCacheMode(QGraphicsView::CacheBackground);
-    view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    // view->setDragMode(QGraphicsView::ScrollHandDrag);
-    view->resize(400,300);
+    // view->setCacheMode(QGraphicsView::CacheBackground);
+    // view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    // view->fitInView(0, 0, (COL_NUMBER+1)*GRID_X,ROW_NUMBER*GRID_Y);
     view->show();
+    // view->setFixedSize((COL_NUMBER+1)*GRID_X,ROW_NUMBER*GRID_Y);
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(view);
     setLayout(layout);
-    setMouseTracking(true);
-
-    // SunFlower *p = new SunFlower;
-    // p->setPos(0,0);
-    // scene->addItem(p);
 
     QTimer* timer = new QTimer;
     QObject::connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
@@ -43,13 +35,20 @@ Garden::Garden(QWidget *parent) :
 
 void Garden::addPlant(Plant* plant, int row, int col)
 {
-    plant->setPos(row*80,col*100);
+    plant->setPos(actualPos(row,col));
     scene->addItem(plant);
 }
 
 void Garden::removePlant(Plant* plant)
 {
     scene->removeItem(plant);
+}
+
+void Garden::addZombieAt(Zombie* zombie, int row, int col)
+{
+    zombie->setPos(actualPos(row,col));
+    scene->addItem(zombie);
+    scene->addLine(0,0,200,200);
 }
 
 void Garden::prepareToPlant(Plant* plant)
@@ -66,30 +65,46 @@ void Garden::prepareToRemove()
 
 void Garden::mousePressEvent(QMouseEvent *event)
 {
+    QPoint point = targetPoint(scenePos(event->pos()));
+    qDebug()<<point;
     if (event->buttons()==Qt::LeftButton){
         if (prepare){
-            QPoint point = targetPoint(event->pos());
-            emit addPlantAt(newPlant,point.x(),point.y());
+            emit addPlantAt(newPlant,point.y(),point.x());
             prepare = false;
             newPlant = NULL;
         }
         else if (prepare2Remove){
-            QPoint point = targetPoint(event->pos());
-            emit removePlantAt(point.x(),point.y());
+            emit removePlantAt(point.y(),point.x());
             prepare2Remove = false;
         }
         else
             return;
     }
     else {
-        qDebug()<<"Also ignored!";
+        // qDebug()<<"Also ignored!";
         return;
     }
 }
 
-const QPoint Garden::targetPoint(const QPoint &position) const
+const QPoint Garden::targetPoint(const QPointF &position) const
 {
-    return QPoint(position.x()/GRID_X, position.y()/GRID_Y);
+    return QPoint((position.x())/GRID_X, (position.y())/GRID_Y);
+}
+
+const QPoint Garden::scenePos(const QPointF &p) const
+{
+    QPointF p1(view->mapToScene(QPoint(p.x(),p.y())));
+    return QPoint(p1.x()-10,p1.y()-10);// NOTE MYSTERIOUS CONSTANT!!!!!!
+    /**************
+      God Damn know what f**k is this!!!
+      ************/
+}
+
+const QPointF Garden::actualPos(int row, int col) const
+{
+       QPointF p1(col*GRID_X,row*GRID_Y);
+       QPointF p2(p1.x(),p1.y());
+       return p2;
 }
 
 void Garden::mouseMoveEvent(QMouseEvent *event)

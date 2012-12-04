@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLCDNumber>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPushButton>
 
 class SunLight : public QWidget

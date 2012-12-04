@@ -20,6 +20,8 @@ void Field::addPlant(Plant* plant, int row, int col)
     if (plant != 0) {
         if (row >= ROW_NUMBER || col >= COL_NUMBER){
             qDebug() << QString("Exceeds!")<<ROW_NUMBER<<" "<<row<<" "<<COL_NUMBER<<" "<<col;
+            delete(plant);
+            return;
         }
         if (plantField[row][col]!=NULL){
             delete(plant);

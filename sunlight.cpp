@@ -7,7 +7,7 @@ SunLight::SunLight(QWidget *parent) :
     connect(this,SIGNAL(updateSun(int)),lcd,SLOT(display(int)));
     QPushButton* button = new QPushButton(tr("add sunlight"));
     connect(button, SIGNAL(clicked()),this,SLOT(addSunLight()));
-    QHBoxLayout* layout = new QHBoxLayout;
+    QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(lcd);
     layout->addWidget(button);
     addSunLight(0);// dirty code

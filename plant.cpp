@@ -5,16 +5,6 @@ int Plant::originHealthPoint = 100;
 Plant::Plant(QObject *parent, QString name) :
     QObject(parent), plantName(name)  //, healthPoint(originHealthPoint)
 {
-    // the following are for debug
-    /*
-    QPushButton *bite = new QPushButton(tr("bite"));
-    connect(bite, SIGNAL(clicked()), this, SLOT(bitten()));// this is for debug
-
-    hp = new QLCDNumber(3);
-    hp->setSegmentStyle(QLCDNumber::Filled);
-    connect(this,SIGNAL(hpChanged(int)),hp,SLOT(display(int)));
-    */
-
     // setMinimumSize(40,40);
     resetHealthPoint();
     /*
@@ -53,7 +43,7 @@ QPainterPath Plant::shape() const
 
 void Plant::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(-20,0,QPixmap(":/images/"+plantName+".gif"));
+    painter->drawPixmap(0,0,QPixmap(":/images/"+plantName+".gif"));
 }
 
 void Plant::advance(int step)

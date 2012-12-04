@@ -10,7 +10,7 @@
 #include "Constants.h"
 
 Zombie::Zombie(QObject *parent, QString name) :
-    QObject(parent), zombieName(name),healthPoint(100),isFrozen(false)
+    QObject(parent), zombieName(name),healthPoint(100),isFrozen(false),whichStep(0)
 {
     /*
     QLabel *zombie = new QLabel(this);
@@ -39,15 +39,19 @@ QPainterPath Zombie::shape() const
 
 void Zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(-20,0,QPixmap(":/images/"+zombieName+".gif"));
+    painter->drawPixmap(0,0,QPixmap(":/images/"+zombieName+".gif"));
 }
 
 void Zombie::advance(int step)
 {
     if (!step)
         return;
-
-    setPos(mapToParent(0,0));
+    if (!whichStep){
+        setPos(mapToParent(-1,0));
+        whichStep = 20;
+    }
+    else
+        whichStep--;
 }
 
 void Zombie::hitten(int hitNumber)
