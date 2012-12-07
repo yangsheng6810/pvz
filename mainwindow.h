@@ -2,10 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
-#include <QAction>
-#include <QLCDNumber>
+#include "backgroundmusic.h"
 
 class MainWindow : public QMainWindow
 {
@@ -15,6 +12,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     // QSize sizeHint() const;
     ~MainWindow();
+
+signals:
+    void sendZombies();
 
 private slots:
     void newGame();
@@ -28,6 +28,8 @@ private:
     QAction *aboutAct;
     void createMenus();
     void createActions();
+    BackgroundMusic *music;
+
 };
 
 #endif // MAINWINDOW_H

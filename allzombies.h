@@ -7,35 +7,33 @@
 #include "zombie.h"
 #include "Constants.h"
 
-struct zombiePack
-{
-    Zombie* zombie;
-    int row;
-    int col;
-};
-
 class AllZombies : public QWidget
 {
     Q_OBJECT
 public:
     explicit AllZombies(QWidget *parent = 0);
     void addZombie(int row,int type=0);// called by AI
-    bool zombieAt(int row, int col);
+    bool zombieAt(int row, int col) const;
 
 signals:
     // void zombieAt(int row, int col);
     void addZombieAt(Zombie*, int, int);
-    
+    void deleteZombie(Zombie*);
+    void receiveHit(Zombie* z,int strength,int property);
+
 public slots:
-    void peaShoot(int row, int colFrom, int strength=1);
-    void reversePeaShoot(int row, int colFrom, int strength =1);
     //void deleteZombie(Zombie* deadZombie);
+    // void startSendZombies();
+    void sendZombies();
+    void clearRow(int row);
 private slots:
-    void sendMessage();
+    void countZombies();
+    void killDead(Zombie*);
 private:
-    QLinkedList<zombiePack> zombieList[ROW_NUMBER];
+    QLinkedList<Zombie*> zombieList[ROW_NUMBER];
     static int originHealthPoint;
     QTimer *timer;
+    int counter;
 };
 
 #endif // ALLZOMBIES_H

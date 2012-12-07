@@ -4,11 +4,13 @@
 #include "Constants.h"
 
 AllZombies::AllZombies(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),counter(0)
 {
-    // timer = new QTimer(this);// timer for emitting zombies on the lawn
-    // connect(timer, SIGNAL(timeout()), this, SLOT(sendMessage()));
-    // timer->start(1000);
+    timer = new QTimer(this);// timer for emitting zombies on the lawn
+    connect(timer, SIGNAL(timeout()), this, SLOT(sendZombies()));
+    timer->start(5000);
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
 
 }
 
@@ -17,16 +19,14 @@ void AllZombies::addZombie(int row, int type)
     if (!type)
         qDebug()<<"unknown type of zombie!";
     Zombie* z = new Zombie();
-    zombiePack zp;
-    zp.zombie = z;
-    zp.row = row;
-    zp.col = MAX_COL-1;
-    zombieList[row].push_back(zp);
-    qDebug()<<"here visited!";
-    emit addZombieAt(z,zp.row,zp.col);
+    connect(z,SIGNAL(die(Zombie*)),this,SLOT(killDead(Zombie*)));
+    connect(this,SIGNAL(receiveHit(Zombie*,int,int)),z,SLOT(hitten(Zombie*,int,int)),Qt::QueuedConnection);
+    zombieList[row].push_back(z);
+    // qDebug()<<"come to AllZombies::addZombie";
+    emit addZombieAt(z,row,MAX_COL);
 }
 
-void AllZombies::sendMessage()
+void AllZombies::countZombies()
 {
     // QLinkedList<zombiePack>::iterator i;
     // Plant* pp;
@@ -43,40 +43,56 @@ void AllZombies::sendMessage()
     // }
 }
 
-bool AllZombies::zombieAt(int row, int col)
+bool AllZombies::zombieAt(int row, int col) const
 {
-    QLinkedList<zombiePack>::iterator iter;
-    for (iter = zombieList[row].begin(); iter!=zombieList[row].end();++iter)
-        if (iter->col == col)
+    // qDebug()<<"come to AllZombies::zombieAt";
+    QLinkedList<Zombie* >::const_iterator iter;
+    for (iter = zombieList[row].constBegin(); iter!=zombieList[row].constEnd();++iter){
+        // qDebug()<<row<<" "<<zombieList[row].size();
+        /*
+        qDebug()<<"come to zombieAt";
+        qDebug()<<(int)((*iter)->pos().x()/GRID_X);
+        */
+        if ((int)((*iter)->pos().x()/GRID_X) == col)
             return true;
+    }
     return false;
 }
-void AllZombies::peaShoot(int row, int colFrom, int strength)
+
+void AllZombies::killDead(Zombie* z)
 {
-    int minCol=100000;
-    QLinkedList<zombiePack>::iterator i;
-    Zombie* zombieHitten;
-    for (i = zombieList[row].begin(); i != zombieList[row].end(); ++i){
-        if (i->col >= colFrom && i->col < minCol){
-            minCol = i->col;
-            zombieHitten = i->zombie;
-        }
-    }
-    if (zombieHitten)
-        zombieHitten->hitten(PEA_HIT);
+    int row;
+    // qDebug()<<"come to AllZombies::killDead first line";
+    row = z->pos().y()/GRID_Y;
+    QLinkedList<Zombie *>::iterator it = qFind(zombieList[row].begin(),
+                                               zombieList[row].end(), z);
+    // qDebug()<<"come to AllZombies::killDead";
+    emit deleteZombie(z);
+    if (it != zombieList[row].end())
+        zombieList[row].erase(it);
+    // qDebug()<<zombieList[row].size();
+    // qDebug()<<"come to AllZombies::killDead after delete";
 }
 
-void AllZombies::reversePeaShoot(int row, int colFrom, int strength)
+void AllZombies::sendZombies()
 {
-    int maxCol=0;
-    QLinkedList<zombiePack>::iterator i;
-    Zombie* zombieHitten;
-    for (i = zombieList[row].begin(); i != zombieList[row].end(); ++i){
-        if (i->col <= colFrom && i->col > maxCol){
-            maxCol = i->col;
-            zombieHitten = i->zombie;
-        }
+    counter++;
+    int row =(qrand() % (ROW_NUMBER)) + 0;
+    int type=1;
+    // int type = (qrand() % (ZOMBIE_TYPE_NUMBER))+0;
+    addZombie(row,type);
+}
+
+void AllZombies::clearRow(int row)
+{
+    // qDebug()<<"come to AllZombies::clearRow; "<<zombieList[row].size();
+    QLinkedList<Zombie* >::const_iterator iter;
+    // int number = zombieList[row].size();
+    iter = zombieList[row].constBegin();
+    for (int i = zombieList[row].size(); i>0; ++iter,--i){
+        // qDebug()<<"come to AllZombies::clearRow before emittint";
+        // qDebug()<<(*iter)->type();
+        emit receiveHit(*iter,200,2);
     }
-    if (zombieHitten)
-        zombieHitten->hitten(PEA_HIT);
-}// implemented simply for split repeater
+    // qDebug()<<"end allZombies::clearRow";
+}

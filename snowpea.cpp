@@ -1,11 +1,11 @@
-#include "peashooter.h"
+#include "snowpea.h"
 
-PeaShooter::PeaShooter(QObject *parent) :
-    Plant(parent), strength(10), property(1),counter(0)
+SnowPea::SnowPea(QObject *parent):
+    Plant(parent, "snowPea"), strength(10), property(3),counter(0)
 {
 }
 
-void PeaShooter::seeZombie(int row, int col)
+void SnowPea::seeZombie(int row, int col)
 {
     // qDebug()<<"come to seeZombie in peashooter";
     if (row == myRow && col > myCol && !hasZombie)
@@ -13,12 +13,13 @@ void PeaShooter::seeZombie(int row, int col)
     // qDebug()<<hasZombie;
 }
 
-void PeaShooter::sendPea()
+void SnowPea::sendPea()
 {
     // qDebug()<<"come to sendPea in peashooter";
     // qDebug()<<"row "<<myRow<<" col "<<myCol;
     if (hasZombie){
         if (counter == 0){
+            // qDebug()<<"come to sendPea in peashooter";
             emit emitPea(myRow, myCol, strength, property);
         }
         counter = counter >= 5? 0:counter+1;

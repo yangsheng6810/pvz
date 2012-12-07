@@ -1,12 +1,13 @@
+#include <QDebug>
 #include "plant.h"
 
-int Plant::originHealthPoint = 100;
-
 Plant::Plant(QObject *parent, QString name) :
-    QObject(parent), plantName(name)  //, healthPoint(originHealthPoint)
+    QObject(parent), plantName(name), typeName("plant"),hasZombie(false), healthPoint(200)
 {
     // setMinimumSize(40,40);
-    resetHealthPoint();
+    // resetHealthPoint();
+    movie = new QMovie(":/images/"+name+".gif");
+    movie->start();
     /*
     QLabel *plant = new QLabel(this);
     QMovie *movie = new QMovie(":/images/"+name+".gif");
@@ -27,6 +28,17 @@ Plant::Plant(QObject *parent, QString name) :
     */
 
 }
+
+Plant::~Plant()
+{
+    delete(movie);
+}
+
+int Plant::type() const
+{
+    return Type;
+}
+
 QRectF Plant::boundingRect() const
 {
     qreal adjust = 0.5;
@@ -37,13 +49,16 @@ QRectF Plant::boundingRect() const
 QPainterPath Plant::shape() const
 {
     QPainterPath path;
-    path.addRect(-10, -20, 50, 140);
+    path.addRect(0, 0, 90, 100);
     return path;
 }
 
 void Plant::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(0,0,QPixmap(":/images/"+plantName+".gif"));
+    //painter->drawPixmap(0,0,QPixmap(":/images/"+plantName+".gif"));
+    // painter->drawPixmap(0,0,movie->currentPixmap());
+    painter->drawImage(0,0,movie->currentImage());
+    // painter->drawRect(0,0,90,100);
 }
 
 void Plant::advance(int step)
@@ -51,24 +66,54 @@ void Plant::advance(int step)
     if (!step)
         return;
 
+    update();
     // setPos(mapToParent(-1, 0));
 }
-void Plant::bitten()
+
+void Plant::setPlanted()
 {
-    int num = 4;
+    planted = true;
+}
+
+void Plant::bitten(Plant* pp, int num)
+{
+    if (pp != this)
+        return;
     healthPoint -= num;
+    //if (healthPoint > 100)
+    //    qDebug()<<"find wallNut";
+    // qDebug()<<"hp now "<<healthPoint;
     emit hpChanged(healthPoint);
     if (healthPoint <= 0){
-        die();
+        emit destroyMe(this);
     }
 }
 
-void Plant::die()
-{
-}
 
+/*
 void Plant::resetHealthPoint()
 {
     healthPoint = originHealthPoint;
     emit hpChanged(healthPoint);
+}
+*/
+
+void Plant::setLocation(int row, int col)
+{
+    myRow = row;
+    myCol = col;
+}
+
+void Plant::seeZombie(int row, int col)
+{
+    // qDebug()<<"comes to seeZombie in plant";
+}
+
+void Plant::sendPea()
+{
+}
+
+void Plant::mousePressEvent(QMouseEvent *event)
+{
+    // qDebug()<<"visit Plant mouse event!";
 }

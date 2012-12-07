@@ -1,11 +1,7 @@
 #ifndef PLANTCARD_H
 #define PLANTCARD_H
 
-#include <QWidget>
-#include <QPushButton>
-#include <QPixmap>
-#include <QPoint>
-#include <QProgressBar>
+#include <QtGui>
 #include "sunlight.h"
 
 class Plant;
@@ -16,10 +12,12 @@ class PlantCard : public QWidget
     Q_OBJECT
 public:
     explicit PlantCard(QString plantName, int sun, int time, SunLight *parent);
+    ~PlantCard();
     const QString name;
     QPushButton* button;
     QTimer* timer;
     QProgressBar* bar;
+    int getSunNeeded();
 
 signals:
     void tryPlanting(Plant* plant, PlantCard* card);
@@ -30,6 +28,8 @@ public slots:
 protected:
     int waiting;
     int sunNeeded;
+    QPixmap* pixmap;
+    QVBoxLayout* layout;
 private slots:
     void buttonEnable(void);
     void buttonClicked(void);

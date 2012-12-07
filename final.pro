@@ -24,7 +24,13 @@ SOURCES += main.cpp\
     plantcard.cpp \
     allzombies.cpp \
     zombie.cpp \
-    garden.cpp
+    garden.cpp \
+    pea.cpp \
+    wallnut.cpp \
+    snowpea.cpp \
+    splitpea.cpp \
+    threepeater.cpp \
+    jalapeno.cpp
 
 HEADERS  += mainwindow.h \
     plant.h \
@@ -38,7 +44,13 @@ HEADERS  += mainwindow.h \
     plantcard.h \
     allzombies.h \
     zombie.h \
-    garden.h
+    garden.h \
+    pea.h \
+    wallnut.h \
+    snowpea.h \
+    splitpea.h \
+    threepeater.h \
+    jalapeno.h
 
 FORMS    +=
 

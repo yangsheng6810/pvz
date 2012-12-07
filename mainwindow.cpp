@@ -1,15 +1,10 @@
 #include <QtGui>
-#include <QPushButton>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QMessageBox>
 // #include <QTimer>
 #include "mainwindow.h"
 #include "plant.h"
 #include "sunflower.h"
 #include "peashooter.h"
-#include "backgroundmusic.h"
 #include "sunlight.h"
 #include "field.h"
 #include "allzombies.h"
@@ -36,9 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
     removeButton->setIcon(QIcon(*pixmap));
     removeButton->setIconSize(pixmap->rect().size());
 
-    PlantCard* card = new PlantCard("peashooter",100,20,sun);
+    PlantCard* card = new PlantCard("peashooter",100,30,sun);
 
-    Field *f = new Field(sun);
+    AllZombies* allZombies = new AllZombies();
+    Field *f = new Field(sun, allZombies);
     Garden *g = new Garden;
 
     connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
@@ -49,6 +45,33 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
     connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
     top->addWidget(card);
+
+    card = new PlantCard("wallNut",50,200,sun);
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+
+    card = new PlantCard("snowPea",175,100,sun);
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+
+    card = new PlantCard("splitPea",125,100,sun);
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+
+    card = new PlantCard("jalapeno",125,200,sun);
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+
+    card = new PlantCard("threepeater",325,100,sun);
+    connect(sun,SIGNAL(updateSun(int)),card,SLOT(sunUpdate(int)));
+    connect(card,SIGNAL(tryPlanting(Plant*,PlantCard*)),f,SLOT(addPlant(Plant*,PlantCard*)));
+    top->addWidget(card);
+
+
     top->addWidget(removeButton);
     layout->addLayout(top);
 
@@ -59,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(g,SIGNAL(addPlantAt(Plant*,int,int)),f,SLOT(addPlant(Plant*, int,int)));
     connect(f,SIGNAL(subSun(int)),sun,SLOT(subtractSunLight(int)));
     connect(g,SIGNAL(removePlantAt(int,int)),f,SLOT(removePlant(int,int)));
+    connect(g,SIGNAL(destroyPlant(Plant*)),f,SLOT(deletePlant(Plant*)));
 
     connect(removeButton, SIGNAL(clicked()),g,SLOT(prepareToRemove()));
 
@@ -66,9 +90,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // QTimer::singleShot(10000, f, SLOT(removePlantDebug()));
 
-    AllZombies* allZombies = new AllZombies();
     connect(allZombies,SIGNAL(addZombieAt(Zombie*,int,int)),g,SLOT(addZombieAt(Zombie*,int,int)));
-    allZombies->addZombie(0, 0);
+    connect(g,SIGNAL(sendHit(Zombie*,int,int)),allZombies,SIGNAL(receiveHit(Zombie*,int,int)));
+    connect(allZombies,SIGNAL(deleteZombie(Zombie*)),g,SLOT(deleteZombie(Zombie*)));
+    // connect(this,SIGNAL(sendZombies()),allZombies,SLOT(startSendZombies()));
+    // allZombies->addZombie(0, 1);
 
     layout->setSpacing(0);
     QWidget *widget = new QWidget;
@@ -77,14 +103,18 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(QObject::tr("Plant VS Zombies"));
     setCentralWidget(widget);
 
-    BackgroundMusic *music = new BackgroundMusic;
+    music = new BackgroundMusic;
     music->startPlaying();
     this->setFixedSize(1000,700);
     // layout->setSizeConstraint(QLayout::SetFixedSize);
+    // emit sendZombies();
 }
 
 MainWindow::~MainWindow()
 {
+    delete(gameMenu);
+    delete(helpMenu);
+    delete(music);
     //delete ui;
 }
 

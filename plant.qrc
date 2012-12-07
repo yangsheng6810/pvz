@@ -10,5 +10,17 @@
         <file>card/sunflower.png</file>
         <file>card/peashooter.png</file>
         <file>images/remove.png</file>
+        <file>images/pea.png</file>
+        <file>card/wallNut.png</file>
+        <file>images/wallNut.gif</file>
+        <file>card/snowPea.png</file>
+        <file>images/snowPea.gif</file>
+        <file>card/splitPea.png</file>
+        <file>images/splitPea.gif</file>
+        <file>card/threepeater.png</file>
+        <file>images/threepeater.gif</file>
+        <file>images/snowpea.png</file>
+        <file>images/jalapeno.gif</file>
+        <file>card/jalapeno.png</file>
     </qresource>
 </RCC>
