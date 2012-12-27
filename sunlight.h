@@ -14,12 +14,16 @@ public:
     bool sufficientSunLight(int num);
 
 public slots:
+    void restart();
+    void pause();
+    void restore();
     void addSunLight(int num);
     void addSunLight(void);// for debug
     void subtractSunLight(int num);// caller responsible for sufficient sunlight
 protected:
     int sunLight;
     QLCDNumber* lcd;
+    bool paused;
 signals:
     void updateSun(int);
     //void insufficientSunLight();

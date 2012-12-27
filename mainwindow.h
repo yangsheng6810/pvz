@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "backgroundmusic.h"
+class PlantYard;
 
 class MainWindow : public QMainWindow
 {
@@ -15,20 +16,29 @@ public:
 
 signals:
     void sendZombies();
+    void restart();
+    void pause();
+    void restore();
 
 private slots:
     void newGame();
+    void pauseOrRestore();
     void about();
+    void youLose();
+    void newRestart();
 
 private:
     QMenu *gameMenu;
     QMenu *helpMenu;
     QAction *newGameAct;
+    QAction *pauseGameAct;
     QAction *exitAct;
     QAction *aboutAct;
     void createMenus();
     void createActions();
     BackgroundMusic *music;
+    bool paused;
+    PlantYard* yard;
 
 };
 

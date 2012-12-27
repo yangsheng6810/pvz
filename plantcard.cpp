@@ -10,10 +10,22 @@
 #include "splitpea.h"
 #include "threepeater.h"
 #include "jalapeno.h"
+#include "kernelpult.h"
+#include "melonpult.h"
+#include "cherrybomb.h"
+#include "cobcannon.h"
+#include "spikeweed.h"
+#include "potatomine.h"
+#include "tallnut.h"
+#include "squash.h"
+#include "repeater.h"
+#include "gatlingpea.h"
+#include "torchwood.h"
 
 PlantCard::PlantCard(QString plantName, int sun, int time, SunLight *parent) :
-    name(plantName),theSun(parent), sunNeeded(sun), rechargeTime(time), sufficientSun(parent->sufficientSunLight(sun))
+    name(plantName),sunNeeded(sun),rechargeTime(time),theSun(parent), sufficientSun(parent->sufficientSunLight(sun))
 {
+    sufficientSun = parent->sufficientSunLight(sun);
     connect(parent,SIGNAL(updateSun(int)),this,SLOT(sunUpdate(int)));
     layout = new QVBoxLayout;
 
@@ -32,13 +44,15 @@ PlantCard::PlantCard(QString plantName, int sun, int time, SunLight *parent) :
     bar->setValue(rechargeTime);
     layout->addWidget(bar);
 
-    timer = new QTimer();
+    timer = new Timer();
     connect(timer,SIGNAL(timeout()),this,SLOT(charging()));
 
     waiting = 0;
 
     setLayout(layout);
+    paused = false;
 }
+
 
 PlantCard::~PlantCard()
 {
@@ -49,12 +63,37 @@ PlantCard::~PlantCard()
     delete(layout);
 }
 
+void PlantCard::restart()
+{
+    waiting = 0;
+    button->setEnabled(true);
+    bar->setValue(rechargeTime);
+    timer->stop();
+}
+
+void PlantCard::pause()
+{
+    timer->pause();
+    paused = true;
+}
+
+void PlantCard::restore()
+{
+    timer->restore();
+    paused = false;
+}
+
+void PlantCard::destroyMe()
+{
+    deleteLater();
+}
+
 void PlantCard::recharge(void)
 {
     button->setEnabled(false);
     waiting = rechargeTime;
     bar->setValue(rechargeTime-waiting);
-    timer->start(200);
+    timer->start(0.2);
 }
 
 void PlantCard::charging(void)
@@ -88,6 +127,8 @@ void PlantCard::sunUpdate(int num)
 
 void PlantCard::buttonClicked(void)
 {
+    if (paused)
+        return;
     if (name=="peashooter"){
         PeaShooter* pea = new PeaShooter();
         emit tryPlanting(pea,this);
@@ -115,6 +156,50 @@ void PlantCard::buttonClicked(void)
     else if (name=="jalapeno"){
         Jalapeno* jalapeno = new Jalapeno();
         emit tryPlanting(jalapeno,this);
+    }
+    else if (name=="kernelPult"){
+        KernelPult* kernelPult = new KernelPult();
+        emit tryPlanting(kernelPult, this);
+    }
+    else if (name=="melonPult"){
+        MelonPult* melonPult = new MelonPult();
+        emit tryPlanting(melonPult,this);
+    }
+    else if (name=="cherryBomb"){
+        CherryBomb* cherryBomb = new CherryBomb();
+        emit tryPlanting(cherryBomb,this);
+    }
+    else if (name=="cobCannon"){
+        CobCannon* cobCannon = new CobCannon();
+        emit tryPlanting(cobCannon,this);
+    }
+    else if (name=="spikeweed"){
+        Spikeweed* spikeweed = new Spikeweed();
+        emit tryPlanting(spikeweed, this);
+    }
+    else if (name=="potatoMine"){
+        PotatoMine* potatoMine = new PotatoMine();
+        emit tryPlanting(potatoMine, this);
+    }
+    else if (name=="tallNut"){
+        TallNut* tallNut = new TallNut();
+        emit tryPlanting(tallNut,this);
+    }
+    else if (name=="squash"){
+        Squash* squash = new Squash();
+        emit tryPlanting(squash,this);
+    }
+    else if (name=="repeater"){
+        Repeater* repeater = new Repeater();
+        emit tryPlanting(repeater,this);
+    }
+    else if (name=="gatlingPea"){
+        GatlingPea* gatlingPea = new GatlingPea();
+        emit tryPlanting(gatlingPea,this);
+    }
+    else if (name=="torchwood"){
+        Torchwood* torchwood = new Torchwood();
+        emit tryPlanting(torchwood, this);
     }
     else
         qDebug()<<"Wrong Name!";

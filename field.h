@@ -2,12 +2,14 @@
 #define FIELD_H
 
 #include <QWidget>
-#include <QGridLayout>
 #include "Constants.h"
+#include "allzombies.h"
 #include "plant.h"
 #include "plantcard.h"
 #include "sunlight.h"
-#include "allzombies.h"
+#include "timer.h"
+class AllZombies;
+class Zombie;
 
 class Field : public QWidget
 {
@@ -19,9 +21,10 @@ public:
 private:
     Plant* plantField[ROW_NUMBER][COL_NUMBER];
     //QWidget* plantField[ROW_NUMBER][COL_NUMBER];
-    QGridLayout* grid;// not a good idea
     AllZombies* allZombies;
 signals:
+    void pausePlants();
+    void restorePlants();
     void sendPea();// type is used for potential useage
     void zombieAt(int row, int col);
     // maybe sendWatermelon
@@ -31,17 +34,21 @@ signals:
     void prepareToPlant(Plant* plant);
     void subSun(int);
 public slots:
+    void restart();
+    void pause();
+    void restore();
     void addPlant(Plant *plant, int row, int col);
     void removePlant(int row, int col);
     void removePlantDebug(void);
     void addPlant(Plant *plant, PlantCard* card);
     void scanZombies(void);
     void deletePlant(Plant*);
+    Plant* getPlant(int row, int col);
 protected:
     Plant* newPlant;
     PlantCard* newCard;
     bool prepare;
-    QTimer* timer;
+    Timer* timer;
 
 };
 

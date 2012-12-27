@@ -30,7 +30,27 @@ SOURCES += main.cpp\
     snowpea.cpp \
     splitpea.cpp \
     threepeater.cpp \
-    jalapeno.cpp
+    jalapeno.cpp \
+    sun.cpp \
+    melonpult.cpp \
+    kernelpult.cpp \
+    cherrybomb.cpp \
+    scene.cpp \
+    cobcannon.cpp \
+    cob.cpp \
+    target.cpp \
+    timer.cpp \
+    coneheadzombie.cpp \
+    bucketheadzombie.cpp \
+    spikeweed.cpp \
+    potatomine.cpp \
+    tallnut.cpp \
+    squash.cpp \
+    gatlingpea.cpp \
+    repeater.cpp \
+    torchwood.cpp \
+    carddialog.cpp \
+    mower.cpp
 
 HEADERS  += mainwindow.h \
     plant.h \
@@ -50,7 +70,27 @@ HEADERS  += mainwindow.h \
     snowpea.h \
     splitpea.h \
     threepeater.h \
-    jalapeno.h
+    jalapeno.h \
+    sun.h \
+    melonpult.h \
+    kernelpult.h \
+    cherrybomb.h \
+    scene.h \
+    cobcannon.h \
+    cob.h \
+    target.h \
+    timer.h \
+    coneheadzombie.h \
+    bucketheadzombie.h \
+    spikeweed.h \
+    potatomine.h \
+    tallnut.h \
+    squash.h \
+    gatlingpea.h \
+    repeater.h \
+    torchwood.h \
+    carddialog.h \
+    mower.h
 
 FORMS    +=
 

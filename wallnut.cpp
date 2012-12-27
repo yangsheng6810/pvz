@@ -1,7 +1,7 @@
 #include "wallnut.h"
 
 WallNut::WallNut(QObject *parent):
-    Plant(parent, "wallNut")
+    Plant("wallNut")
 {
     healthPoint = 2000;
 }

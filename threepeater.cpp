@@ -2,7 +2,7 @@
 #include "Constants.h"
 
 Threepeater::Threepeater(QObject *parent) :
-    Plant(parent, "threepeater"), strength(10), property(1),counter(0)
+    Plant("threepeater"), strength(1), property(1),counter(0)
 {
 }
 
@@ -30,7 +30,7 @@ void Threepeater::sendPea()
             if (myRow<ROW_NUMBER-1)
                 emit emitPea(myRow+1,myCol,strength,property);
         }
-        counter = counter >= 5? 0:counter+1;
+        counter = counter >= 25? 0:counter+1;
         hasZombie = false;
     }
 }

@@ -8,8 +8,14 @@ BackgroundMusic::BackgroundMusic(QObject *parent) :
 
 void BackgroundMusic::startPlaying()
 {
-    Phonon::MediaObject *music =
-            Phonon::createPlayer(Phonon::MusicCategory,
+    music = Phonon::createPlayer(Phonon::MusicCategory,
                                  Phonon::MediaSource(":/music/Grasswalk.mp3"));
     music->play();
 }
+
+void BackgroundMusic::restart()
+{
+    music->clear();
+    startPlaying();
+}
+

@@ -2,16 +2,18 @@
 #define PLANT_H
 
 #include <QtGui>
+#include <QGraphicsSceneMouseEvent>
+#include "timer.h"
 
 QT_BEGIN_NAMESPACE
 class QMouseEvent;
 QT_END_NAMESPACE
 
-class Plant : public QObject, public QGraphicsItem
+class Plant : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    explicit Plant(QObject *parent = 0, QString name="peashooter");
+    explicit Plant(QString name="peashooter", QObject* parent=0);
     ~Plant();
     enum { Type = UserType + 2 };
     const QString plantName;
@@ -26,10 +28,12 @@ public:
 
 signals:
     void hpChanged(int hp);
-    void emitPea(int row, int col, int strength, int property);
+    void emitPea(int row, int col, int strength, int property, int tempCol=1000);
     void destroyMe(Plant*);
     // 0=normal, 1=fire, 2=freeze, 3=butter
 public slots:
+    virtual void pause();
+    virtual void restore();
     void bitten(Plant *pp, int num);
     // void resetHealthPoint();
     void setLocation(int row, int col);
@@ -37,7 +41,7 @@ public slots:
     virtual void sendPea();
 
 protected:
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
     int healthPoint;
     void die();
     int originHealthPoint;
@@ -46,6 +50,7 @@ protected:
     int whichStep;
     QMovie* movie;
     bool planted;
+    int xShift,yShift;
 
 };
 

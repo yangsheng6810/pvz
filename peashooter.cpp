@@ -1,7 +1,7 @@
 #include "peashooter.h"
 
 PeaShooter::PeaShooter(QObject *parent) :
-    Plant(parent), strength(10), property(1),counter(0)
+    Plant(), strength(1), property(1),counter(0)
 {
 }
 
@@ -21,7 +21,7 @@ void PeaShooter::sendPea()
         if (counter == 0){
             emit emitPea(myRow, myCol, strength, property);
         }
-        counter = counter >= 5? 0:counter+1;
+        counter = counter >= 25? 0:counter+1;
         hasZombie = false;
     }
 }

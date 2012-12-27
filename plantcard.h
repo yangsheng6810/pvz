@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "sunlight.h"
+#include "timer.h"
 
 class Plant;
 
@@ -15,13 +16,17 @@ public:
     ~PlantCard();
     const QString name;
     QPushButton* button;
-    QTimer* timer;
+    Timer* timer;
     QProgressBar* bar;
     int getSunNeeded();
 
 signals:
     void tryPlanting(Plant* plant, PlantCard* card);
 public slots:
+    void restart();
+    void pause();
+    void restore();
+    void destroyMe();
     void recharge(void);
     void sunUpdate(int num);
     void charging(void);
@@ -30,6 +35,7 @@ protected:
     int sunNeeded;
     QPixmap* pixmap;
     QVBoxLayout* layout;
+    bool paused;
 private slots:
     void buttonEnable(void);
     void buttonClicked(void);

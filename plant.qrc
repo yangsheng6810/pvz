@@ -22,5 +22,38 @@
         <file>images/snowpea.png</file>
         <file>images/jalapeno.gif</file>
         <file>card/jalapeno.png</file>
+        <file>images/sun.png</file>
+        <file>images/kernel.png</file>
+        <file>card/melonPult.png</file>
+        <file>card/kernelPult.png</file>
+        <file>images/kernelPult.gif</file>
+        <file>images/melonPult.gif</file>
+        <file>images/melon.png</file>
+        <file>card/cherryBomb.png</file>
+        <file>images/chomper.gif</file>
+        <file>images/cherryBomb.gif</file>
+        <file>card/cobCannon.png</file>
+        <file>images/cob.png</file>
+        <file>images/cobCannon.gif</file>
+        <file>images/target.png</file>
+        <file>images/cobImpact.png</file>
+        <file>images/coneheadZombie.gif</file>
+        <file>images/bucketheadZombie.gif</file>
+        <file>images/spikeweed.gif</file>
+        <file>card/spikeweed.png</file>
+        <file>images/potatoMine.gif</file>
+        <file>card/potatoMine.png</file>
+        <file>card/tallNut.png</file>
+        <file>images/tallNut.gif</file>
+        <file>images/squash.gif</file>
+        <file>card/squash.png</file>
+        <file>images/repeater.gif</file>
+        <file>images/gatlingPea.gif</file>
+        <file>card/repeater.png</file>
+        <file>card/gatlingPea.png</file>
+        <file>images/firePea.png</file>
+        <file>images/torchwood.gif</file>
+        <file>card/torchwood.png</file>
+        <file>images/mower.png</file>
     </qresource>
 </RCC>

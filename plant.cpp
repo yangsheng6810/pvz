@@ -1,9 +1,11 @@
 #include <QDebug>
 #include "plant.h"
 
-Plant::Plant(QObject *parent, QString name) :
-    QObject(parent), plantName(name), typeName("plant"),hasZombie(false), healthPoint(200)
+Plant::Plant(QString name, QObject* parent) :
+    plantName(name), typeName("plant"), healthPoint(200)
 {
+    hasZombie = false;
+    xShift = yShift = 0;
     // setMinimumSize(40,40);
     // resetHealthPoint();
     movie = new QMovie(":/images/"+name+".gif");
@@ -57,7 +59,7 @@ void Plant::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 {
     //painter->drawPixmap(0,0,QPixmap(":/images/"+plantName+".gif"));
     // painter->drawPixmap(0,0,movie->currentPixmap());
-    painter->drawImage(0,0,movie->currentImage());
+    painter->drawImage(xShift,yShift,movie->currentImage());
     // painter->drawRect(0,0,90,100);
 }
 
@@ -68,6 +70,16 @@ void Plant::advance(int step)
 
     update();
     // setPos(mapToParent(-1, 0));
+}
+
+void Plant::pause()
+{
+    movie->setPaused(true);
+}
+
+void Plant::restore()
+{
+    movie->start();
 }
 
 void Plant::setPlanted()
@@ -113,7 +125,9 @@ void Plant::sendPea()
 {
 }
 
-void Plant::mousePressEvent(QMouseEvent *event)
+void Plant::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // qDebug()<<"visit Plant mouse event!";
+    QGraphicsItem::mousePressEvent(event);
+    //QGraphicsScene::mousePressEvent(event);
+    event->ignore();
 }

@@ -1,7 +1,7 @@
 #include "splitpea.h"
 
 SplitPea::SplitPea(QObject *parent) :
-    Plant(parent, "splitPea"), strength(10), property(1),counter(0)
+    Plant("splitPea"), strength(1), property(1),counter(0)
 {
 }
 
@@ -22,7 +22,7 @@ void SplitPea::sendPea()
             emit emitPea(myRow, myCol, strength, property);
             emit emitPea(myRow, myCol, strength, -property);
         }
-        counter = counter >= 5? 0:counter+1;
+        counter = counter >= 25? 0:counter+1;
         hasZombie = false;
     }
 }

@@ -1,7 +1,7 @@
 #include "snowpea.h"
 
 SnowPea::SnowPea(QObject *parent):
-    Plant(parent, "snowPea"), strength(10), property(3),counter(0)
+    Plant("snowPea"), strength(1), property(3),counter(0)
 {
 }
 
@@ -22,7 +22,7 @@ void SnowPea::sendPea()
             // qDebug()<<"come to sendPea in peashooter";
             emit emitPea(myRow, myCol, strength, property);
         }
-        counter = counter >= 5? 0:counter+1;
+        counter = counter >= 25? 0:counter+1;
         hasZombie = false;
     }
 }

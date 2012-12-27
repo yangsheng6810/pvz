@@ -13,8 +13,10 @@ public:
 signals:
     
 public slots:
+    void restart();
 
 protected:
+    Phonon::MediaObject *music;
 };
 
 #endif // BACKGROUNDMUSIC_H

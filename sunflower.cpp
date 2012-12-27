@@ -1,15 +1,34 @@
 #include "sunflower.h"
 #include "sunlight.h"
+#include <QDebug>
 
 SunFlower::SunFlower(QObject *parent):
-Plant(parent, "sunflower")
+Plant("sunflower")
 {
-    QTimer *timer = new QTimer(this);// timer for emitting sun light
+    timer = new Timer();// timer for emitting sun light
     connect(timer, SIGNAL(timeout()), this, SLOT(sunLight()));
-    timer->start(10000);
+    timer->start(24);
+}
+
+SunFlower::~SunFlower()
+{
+    timer->deleteLater();
 }
 
 void SunFlower::sunLight()
 {
-    emit produceSunLight(50);
+    emit produceSun(this);
+    //emit produceSunLight(50);
+}
+
+void SunFlower::pause()
+{
+    Plant::pause();
+    timer->pause();
+}
+
+void SunFlower::restore()
+{
+    Plant::restore();
+    timer->restore();
 }
