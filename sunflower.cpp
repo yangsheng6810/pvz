@@ -1,6 +1,6 @@
 #include "sunflower.h"
 #include "sunlight.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 
 SunFlower::SunFlower(QObject *parent):
 Plant("sunflower")

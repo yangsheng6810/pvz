@@ -3,8 +3,8 @@
 Spikeweed::Spikeweed(QObject *parent) :
     Plant("spikeweed"),strength(1),counter(0)
 {
-    xShift= 0;
-    yShift = 40;
+    xShift= 10;
+    yShift = 80;
 }
 
 void Spikeweed::seeZombie(int row, int col)

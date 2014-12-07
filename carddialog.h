@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QGridLayout>
+#include <QLCDNumber>
 #include "plantcard.h"
 #include "plantyard.h"
 
@@ -31,6 +32,7 @@ protected:
     int cost[3][6];
     int time[3][6];
     PlantYard* yard;
+    QLCDNumber* lcd;
 };
 
 #endif // CARDDIALOG_H

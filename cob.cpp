@@ -52,7 +52,7 @@ void Cob::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 
 void Cob::advance(int step)
 {
-    qDebug()<<"come in Cob::advance";
+    // qDebug()<<"come in Cob::advance";
     if (!step)
         return;
     if (up)
@@ -60,12 +60,9 @@ void Cob::advance(int step)
     else
         setPos(mapToParent(0,8));
     if (pos().x()==target.x() && pos().y()>= target.y()-162+GRID_Y/2){
-        qDebug()<<"before explode";
         emit explode(this);
-        qDebug()<<"after explode";
-        qDebug()<<"up is "<<up;
     }
-    qDebug()<<"leave Cob::advance";
+    // qDebug()<<"leave Cob::advance";
 }
 
 void Cob::pause()

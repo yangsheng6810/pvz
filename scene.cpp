@@ -1,4 +1,4 @@
-#include <QDebug>
+#include <QtCore/QDebug>
 #include "Constants.h"
 #include "scene.h"
 
@@ -25,7 +25,7 @@ Scene::Scene(QObject *parent) :
 
 void Scene::restart()
 {
-    qDebug()<<"come to Scene::restart";
+    // qDebug()<<"come to Scene::restart";
     prepare = false;
     prepare4Cob = false;
     QList<QGraphicsItem*> deleteList = items();
@@ -34,15 +34,15 @@ void Scene::restart()
     QGraphicsObject* obj;
     while(!deleteList.empty()){
         temp = deleteList.takeFirst();
-        qDebug()<<"Scene::restart, trying to remove all objectives";
+        // qDebug()<<"Scene::restart, trying to remove all objectives";
         line = qgraphicsitem_cast<QGraphicsLineItem*>(temp);
         removeItem(temp);
         if (!line){
-            qDebug()<<"success in casting";
-            qDebug()<<(long)obj;
+            // qDebug()<<"success in casting";
+            // qDebug()<<(long)obj;
             obj = qgraphicsitem_cast<QGraphicsObject*>(temp);
             obj->deleteLater();
-            qDebug()<<QString(obj->metaObject()->className());
+            // qDebug()<<QString(obj->metaObject()->className());
         }
         else
             delete(temp);
@@ -60,7 +60,7 @@ void Scene::restart()
         addLine(i*GRID_X,0,i*GRID_X,ROW_NUMBER*GRID_Y);
     }
     paused = false;
-    qDebug()<<"finishing Scene::restart()";
+    // qDebug()<<"finishing Scene::restart()";
 }
 
 void Scene::pause()
@@ -188,17 +188,19 @@ void Scene::receiveCob(Cob* cob)
     // NOTE, here is a non-pausable code !
     QTimer::singleShot(1000,this,SLOT(clearImpact()));
     emit explodeAt((p.y())/GRID_Y,p.x()/GRID_X);
-    qDebug()<<"Scene::receiveCob trying to remove cob";
+    // qDebug()<<"Scene::receiveCob trying to remove cob";
     removeItem(cob);
     cob->deleteLater();
 }
 
 void Scene::clearImpact()
 {
-    if (list.isEmpty())
+    if (list.isEmpty()){
         qDebug()<<"list empty!! in Scene::clearImpact";
+        // should never be visited
+    }
     else{
-        qDebug()<<"Scene::clearImpact, trying to remove Impacts";
+        // qDebug()<<"Scene::clearImpact, trying to remove Impacts";
         removeItem(list.first());
         list.removeFirst();
     }

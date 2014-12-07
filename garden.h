@@ -1,7 +1,7 @@
 #ifndef GARDEN_H
 #define GARDEN_H
 
-#include <QtGui>
+#include <QtGui/QtGui>
 #include "plant.h"
 #include "zombie.h"
 #include "sunlight.h"

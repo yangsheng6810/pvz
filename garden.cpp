@@ -1,4 +1,4 @@
-#include <QDebug>
+#include <QtCore/QDebug>
 #include "garden.h"
 #include "zombie.h"
 #include "plant.h"
@@ -54,12 +54,12 @@ Garden::Garden(SunLight* mySun,QWidget *parent) :
 
 void Garden::restart()
 {
-    qDebug()<<"come to Garden::restart";
+    // qDebug()<<"come to Garden::restart";
     newPlant = NULL;
     emit restartScene();
     paused = false;
     timer->start();
-    qDebug()<<"finishing Garden::restart";
+    // qDebug()<<"finishing Garden::restart";
 }
 
 void Garden::pause()
@@ -97,7 +97,7 @@ void Garden::addPlant(Plant* plant, int row, int col)
 
 void Garden::removePlant(Plant* plant)
 {
-    qDebug()<<"Garden::removePlant, trying to remove plant";
+    // qDebug()<<"Garden::removePlant, trying to remove plant";
     scene->removeItem(plant);
 }
 
@@ -157,7 +157,7 @@ void Garden::mousePressEvent(QMouseEvent *event)
         }
         else {
             if (prepare){
-                qDebug()<<"Garden::mousePressEvent, trying to remove plant";
+                // qDebug()<<"Garden::mousePressEvent, trying to remove plant";
                 scene->removeItem(newPlant);
                 newPlant->deleteLater();
                 scene->alreadyPlanted();
@@ -228,14 +228,14 @@ void Garden::addPea(int row, int col, int strength, int property, int targetCol)
 
 void Garden::deleteZombie(Zombie* z)
 {
-    qDebug()<<"Garden::deleteZombie, trying to remove Zombie";
+    // qDebug()<<"Garden::deleteZombie, trying to remove Zombie";
     scene->removeItem(z);
     // qDebug()<<"come to Garden::deleteZombie after delete";
 }
 
 void Garden::deletePlant(Plant* p)
 {
-    qDebug()<<"Garden::deletePlant, trying to remove Plant";
+    // qDebug()<<"Garden::deletePlant, trying to remove Plant";
     scene->removeItem(p);
     emit destroyPlant(p);
     // p->deleteLater();
@@ -243,7 +243,7 @@ void Garden::deletePlant(Plant* p)
 
 void Garden::destroyPea(Pea* p)
 {
-    qDebug()<<"Garden::destroyPea, trying to remove pea";
+    // qDebug()<<"Garden::destroyPea, trying to remove pea";
     scene->removeItem(p);
     // delete(p);
     // qDebug()<<"come to Garden::destroyPea after remove";
@@ -262,7 +262,7 @@ void Garden::produceSun(Plant* p)
 
 void Garden::destroySun(Sun* s)
 {
-    qDebug()<<"Garden::destroySun, trying to remove sun";
+    // qDebug()<<"Garden::destroySun, trying to remove sun";
     scene->removeItem(s);
     delete(s);
 }

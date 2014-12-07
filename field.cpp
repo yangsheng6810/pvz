@@ -28,7 +28,7 @@ void Field::restart()
     newPlant = NULL;
     prepare = false;
     timer->start();
-    qDebug()<<"finishing Field::restart()";
+    // qDebug()<<"finishing Field::restart()";
 }
 
 void Field::pause()

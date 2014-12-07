@@ -1,8 +1,8 @@
 #ifndef PLANT_H
 #define PLANT_H
 
-#include <QtGui>
-#include <QGraphicsSceneMouseEvent>
+#include <QtGui/QtGui>
+#include <QtGui/QGraphicsSceneMouseEvent>
 #include "timer.h"
 
 QT_BEGIN_NAMESPACE

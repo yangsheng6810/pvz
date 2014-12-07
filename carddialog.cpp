@@ -37,6 +37,9 @@ CardDialog::CardDialog(PlantYard* yy,QWidget *parent) :
     connect(cancel,SIGNAL(clicked()),this,SLOT(cancelClicked()));
     layout->addWidget(ok,3,4);
     layout->addWidget(cancel,3,5);
+    lcd = new QLCDNumber(2);
+    lcd->display(0);
+    layout->addWidget(lcd,3,0);
     setLayout(layout);
     setWindowTitle(tr("Choose cards"));
 }
@@ -100,6 +103,7 @@ void CardDialog::prepareCard(int pp)
         counter++;
     else
         counter--;
+    lcd->display(counter);
     // qDebug()<<chosenName[row][col];
     // qDebug()<<allName[row][col];
 }

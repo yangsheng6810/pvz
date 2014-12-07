@@ -1,10 +1,10 @@
 #ifndef SUNLIGHT_H
 #define SUNLIGHT_H
 
-#include <QWidget>
-#include <QLCDNumber>
-#include <QVBoxLayout>
-#include <QPushButton>
+#include <QtGui/QWidget>
+#include <QtGui/QLCDNumber>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QPushButton>
 
 class SunLight : public QWidget
 {
